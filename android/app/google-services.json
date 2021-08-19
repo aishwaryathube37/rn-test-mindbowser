@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "191041306101",
+    "project_id": "reactnativetest-33b4d",
+    "storage_bucket": "reactnativetest-33b4d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:191041306101:android:8eeabf1a06a7558a7af4bc",
+        "android_client_info": {
+          "package_name": "com.rntestmindbowser"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "191041306101-rkjiufbalomsu60kuom9a9bja2ihissr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAabmoQ3gW93yil8Su0wNqgpmzkOpBE9o0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "191041306101-rkjiufbalomsu60kuom9a9bja2ihissr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
