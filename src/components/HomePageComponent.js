@@ -33,18 +33,39 @@ export default class HomePageComponent extends Component {
         });
     }
 
-    //Filter data according to search text 
-    componentDidUpdate(nextProps, prevState) {
-        if (prevState.searchText != this.state.searchText) {
-            let filteredData = Object.keys(this.props.fData).length != 0 && this.props.fData.data.filter((item) => {
-                return item.title.toLowerCase().includes(this.state.searchText.toLowerCase())
+    //get props from redux store 
+    static getDerivedStateFromProps(props, state) {
+        if (props.data.data != state.dataToDisplay) {
+            console.log("getDerivedStateFromProps called")
+            return {
+                dataToDisplay: props.data.data
+            }
+        }
+        if (state.searchText != "") {
+            let filteredData = Object.keys(props.fData).length != 0 && props.fData.data.filter((item) => {
+                return item.title.toLowerCase().includes(state.searchText.toLowerCase())
                     && item
             })
-            this.setState({
+            filteredData.forEach(element => {
+                console.log("called" + element.title)
+            });
+            return {
                 dataToDisplay: filteredData
-            })
+            }
         }
+        if (props.error != undefined) {
+            Alert.alert(
+                'Error',
+                props.error,
+                [
+                    { text: 'Do you want to reload', onPress: () => this.props.callService() },
+                ],
+                { cancelable: false })
+        }
+        // Return null to indicate no change to state.
+        return null;
     }
+
 
     componentWillUnmount() {
         // Unsubscribe
@@ -75,26 +96,6 @@ export default class HomePageComponent extends Component {
                 this.addRecordstoFirebase(item)
             }
         }
-    }
-
-    //get props from redux store 
-    static getDerivedStateFromProps(props, state) {
-        if (props.data.data != null) {
-            return {
-                dataToDisplay: props.data.data
-            }
-        }
-        if (props.error != undefined) {
-            Alert.alert(
-                'Error',
-                props.error,
-                [
-                    { text: 'Do you want to reload', onPress: () => this.props.callService() },
-                ],
-                { cancelable: false })
-        }
-        // Return null to indicate no change to state.
-        return null;
     }
 
     //Set text to the search view
