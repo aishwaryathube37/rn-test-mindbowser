@@ -4,6 +4,8 @@ import { CONST } from '../utils/Constants'
 import { COLORS } from '../utils/Colors'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import database from '@react-native-firebase/database';
+import NetInfo from '@react-native-community/netinfo'
+let unsubscribe = null;
 
 export default class HomePageComponent extends Component {
     constructor(props) {
@@ -15,7 +17,38 @@ export default class HomePageComponent extends Component {
     }
 
     componentDidMount() {
-        this.props.callService()
+        unsubscribe = NetInfo.addEventListener(state => {
+            if (state.isConnected == true) {
+                this.props.callService()
+            }
+            else {
+                Alert.alert(
+                    CONST.title_alert,
+                    CONST.message,
+                    [
+                        { text: CONST.ok, onPress: () => console.log("OK Pressed") }
+                    ]
+                );
+            }
+        });
+    }
+
+    //Filter data according to search text 
+    componentDidUpdate(nextProps, prevState) {
+        if (prevState.searchText != this.state.searchText) {
+            let filteredData = Object.keys(this.props.fData).length != 0 && this.props.fData.data.filter((item) => {
+                return item.title.toLowerCase().includes(this.state.searchText.toLowerCase())
+                    && item
+            })
+            this.setState({
+                dataToDisplay: filteredData
+            })
+        }
+    }
+
+    componentWillUnmount() {
+        // Unsubscribe
+        if (unsubscribe != null) unsubscribe()
     }
 
     //check weather the item marked as a favorite or not
@@ -44,26 +77,24 @@ export default class HomePageComponent extends Component {
         }
     }
 
-    //Receive props from redux store
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.data.data != null) {
-            this.setState({
-                dataToDisplay: nextProps.data.data
-            });
+    //get props from redux store 
+    static getDerivedStateFromProps(props, state) {
+        if (props.data.data != null) {
+            return {
+                dataToDisplay: props.data.data
+            }
         }
-    }
-
-    //Filter data according to search text 
-    componentDidUpdate(prevProps, prevState) {
-        if (prevState.searchText != this.state.searchText) {
-            let filteredData = Object.keys(this.props.fData).length != 0 && this.props.fData.data.filter((item) => {
-                return item.title.toLowerCase().includes(this.state.searchText.toLowerCase())
-                    && item
-            })
-            this.setState({
-                dataToDisplay: filteredData
-            })
+        if (props.error != undefined) {
+            Alert.alert(
+                'Error',
+                props.error,
+                [
+                    { text: 'Do you want to reload', onPress: () => this.props.callService() },
+                ],
+                { cancelable: false })
         }
+        // Return null to indicate no change to state.
+        return null;
     }
 
     //Set text to the search view
