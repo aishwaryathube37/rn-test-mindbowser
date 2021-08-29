@@ -19,7 +19,7 @@ const ServiceReducer = (state = initialState, action) => {
                 isLoading: false,
                 data: action.data
             });
-        case Actions.F_DATA:
+        case Actions.FILTERED_DATA:
             return Object.assign({}, state, {
                 isLoading: false,
                 fData: action.fData

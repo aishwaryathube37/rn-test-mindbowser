@@ -6,11 +6,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import database from '@react-native-firebase/database';
 
 export default class HomePageComponent extends Component {
-
     constructor(props) {
         super(props)
         this.state = {
-            dataToDisplay: this.props.data.data, //Data from store
+            dataToDisplay: [],
             searchText: ''
         }
     }
@@ -45,10 +44,18 @@ export default class HomePageComponent extends Component {
         }
     }
 
+    //Receive props from redux store
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.data.data != null) {
+            this.setState({
+                dataToDisplay: nextProps.data.data
+            });
+        }
+    }
+
     //Filter data according to search text 
     componentDidUpdate(prevProps, prevState) {
         if (prevState.searchText != this.state.searchText) {
-            console.log("FFF", this.props.fData)
             let filteredData = Object.keys(this.props.fData).length != 0 && this.props.fData.data.filter((item) => {
                 return item.title.toLowerCase().includes(this.state.searchText.toLowerCase())
                     && item
@@ -77,7 +84,7 @@ export default class HomePageComponent extends Component {
         this.setState({ isChecked: true })
     }
 
-    //Display loader 
+    //Function toDisplay loader 
     showLoader = (loading) => {
         if (loading) {
             return (
@@ -88,6 +95,7 @@ export default class HomePageComponent extends Component {
 
         }
     }
+
     //Render flatlist data
     renderItem = (item) => (
         <TouchableOpacity onPress={() => this.props.navigation.navigate('Details', {
@@ -130,7 +138,6 @@ export default class HomePageComponent extends Component {
 
     render() {
         return (
-
             <View style={styles.main}>
                 {this.showLoader(this.props.isLoading)}
                 <TextInput
@@ -192,7 +199,6 @@ const styles = StyleSheet.create({
         color: COLORS.black,
         borderRadius: 20
     },
-
     loading: {
         position: 'absolute',
         left: 0,

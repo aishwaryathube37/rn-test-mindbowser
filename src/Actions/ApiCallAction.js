@@ -32,7 +32,7 @@ export const callWebservice = () => {
         .then(response => {
             getFavouritesData(response.data,dispatch),
             dispatch(serviceActionSuccess(response.data))
-            dispatch(fData(response.data))
+            dispatch(filteredData(response.data))
         })
         .catch(error => {
             dispatch(serviceActionError(error))
@@ -79,14 +79,13 @@ export const serviceActionSuccess = (data) => ({
     type: ActionTypes.SERVICE_SUCCESS,
     data: data
 })
-export const fData = (fData) => ({
-  type: ActionTypes.F_DATA,
+export const filteredData = (fData) => ({
+  type: ActionTypes.FILTERED_DATA,
   fData: fData
 })
 export const favouritesData = (favouriteData) => ({
     type: ActionTypes.FAVOURITES_DATA,
     favouriteData: favouriteData
 })
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePageComponent);
