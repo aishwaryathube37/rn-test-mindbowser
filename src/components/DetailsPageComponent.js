@@ -2,25 +2,28 @@
  import {ScrollView,StyleSheet,Text,Image,View,TouchableOpacity,ToastAndroid} from 'react-native';
  import { COLORS } from '../utils/Colors';
  import Icon from 'react-native-vector-icons/FontAwesome';
- import { CONST } from '../utils/Constants'
+ import { CONST } from '../utils/Constants';
+ import { connect } from 'react-redux';
  import database from '@react-native-firebase/database';
 
- class Details extends React.Component {
+ const mapStateToProps = (state) => ({
+    data: state.serviceReducer.data,
+    favouritesData: state.serviceReducer.favouriteData
+});
+
+ export class DetailsPageComponent extends React.Component {
    constructor(props) {
      super(props)
      this.state = {
        itemSelected: {},
-       favouritesData: []
      }
    }
- 
+
    componentDidMount() {
      this.setState({
       itemSelected: this.props.route.params.selectedItem,
       isChecked: this.props.route.params.isChecked,
-      favouritesData: this.props.route.params.favourites
      })
-     
    }
 
   //Save Record to firebase database
@@ -34,6 +37,7 @@
       this.setState({isChecked:true})
   }
 
+
   //Function to call onclick of favoiurites
   onClickFavourite = () => {
     if (this.state.isChecked) {
@@ -43,9 +47,9 @@
         AlertIOS.alert(CONST.alread_added);
       }
     } else {
-      if (this.state.favouritesData.length >= 5) {
+      if (Object.keys(this.props.favouritesData).length >= 5) {
         if (Platform.OS === 'android') {
-          ToastAndroid.show(CONST.fav_limit, ToastAndroid.LONG)
+          ToastAndroid.show(CONST.fav_limit, ToastAndroid.SHORT)
         } else {
           AlertIOS.alert(CONST.fav_limit);
         }
@@ -126,5 +130,5 @@
    }
  });
  
- export default Details;
+ export default sts =  connect(mapStateToProps, null)(DetailsPageComponent)
  
