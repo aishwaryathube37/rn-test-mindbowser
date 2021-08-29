@@ -166,7 +166,6 @@ export default class HomePageComponent extends Component {
         </TouchableOpacity>
     );
 
-
     render() {
         return (
             <View style={styles.main}>
@@ -190,6 +189,7 @@ export default class HomePageComponent extends Component {
     }
 }
 
+//Stylesheets 
 const styles = StyleSheet.create({
     container: {
         shadowColor: '#ccc',

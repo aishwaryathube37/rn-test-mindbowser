@@ -37,7 +37,6 @@ export class DetailsPageComponent extends React.Component {
     this.setState({ isChecked: true })
   }
 
-
   //Function to call onclick of favoiurites
   onClickFavourite = () => {
     if (this.state.isChecked) {
@@ -89,7 +88,6 @@ export class DetailsPageComponent extends React.Component {
     );
   }
 }
-
 
 //Stylesheets 
 const styles = StyleSheet.create({
