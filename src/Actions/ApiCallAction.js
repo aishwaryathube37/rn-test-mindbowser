@@ -31,7 +31,7 @@ export const callWebservice = () => {
     })
       .then(response => {
         getFavouritesData(response.data, dispatch),
-          dispatch(serviceActionSuccess(response.data))
+        dispatch(serviceActionSuccess(response.data))
         dispatch(filteredData(response.data))
       })
       .catch(error => {
@@ -65,7 +65,6 @@ export const getFavouritesData = (response, dispatch) => {
     });
 }
 
-
 export const serviceActionPending = () => ({
   type: ActionTypes.SERVICE_PENDING
 })
@@ -79,10 +78,12 @@ export const serviceActionSuccess = (data) => ({
   type: ActionTypes.SERVICE_SUCCESS,
   data: data
 })
+
 export const filteredData = (fData) => ({
   type: ActionTypes.FILTERED_DATA,
   fData: fData
 })
+
 export const favouritesData = (favouriteData) => ({
   type: ActionTypes.FAVOURITES_DATA,
   favouriteData: favouriteData

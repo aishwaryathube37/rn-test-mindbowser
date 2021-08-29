@@ -75,8 +75,7 @@ export class DetailsPageComponent extends React.Component {
               <Image
                 source={{ uri: this.state.itemSelected.user.avatar_url }}
                 style={styles.image}
-              />
-              :
+              /> :
               <Image
                 source={require('../images/noimage.jpg')}
                 style={styles.image}

@@ -123,7 +123,6 @@ export default class HomePageComponent extends Component {
                     <ActivityIndicator size='large' animating={true} color={COLORS.white} />
                 </View>
             );
-
         }
     }
 
